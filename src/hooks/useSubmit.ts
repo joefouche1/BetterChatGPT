@@ -106,7 +106,6 @@ const useSubmit = () => {
         while (!streamProcessingCompleted || messageQueue.length > 0) {
           if (messageQueue.length > 0) {
             let messageContent = messageQueue.shift();
-            if (!messageContent) return;
             const messageLen = messageContent.length;
             let curChars = '';
             let speed = streamProcessingCompleted
