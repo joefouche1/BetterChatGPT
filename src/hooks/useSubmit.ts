@@ -154,7 +154,13 @@ const useSubmit = () => {
               }
               return output;
             }, '');
-            messageQueue.push(resultString);
+
+            const updatedChats: ChatInterface[] = JSON.parse(
+              JSON.stringify(useStore.getState().chats)
+            );
+            const updatedMessages = updatedChats[currentChatIndex].messages;
+            updatedMessages[updatedMessages.length - 1].content += resultString;
+            setChats(updatedChats);
           }
         }
         if (useStore.getState().generating) {
@@ -164,11 +170,6 @@ const useSubmit = () => {
         }
         reader.releaseLock();
         stream.cancel();
-        streamProcessingCompleted = true;
-      }
-
-      if (stream) {
-        await Promise.all([readStream(stream), processMessageQueue()]);
       }
 
       // update tokens used in chatting
